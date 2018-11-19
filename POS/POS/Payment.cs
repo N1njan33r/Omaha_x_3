@@ -140,6 +140,17 @@ namespace POS
             }
             else if (paymentOption == 3)
             {
+                string checkNumberEntry;
+                int checkNumber;
+
+                do
+                {
+                    Console.WriteLine("Enter 3 to 4 digit check number:  ");
+                    checkNumberEntry = Console.ReadLine();
+                    int.TryParse(checkNumberEntry, out checkNumber);
+
+                } while ((!int.TryParse(checkNumberEntry, out checkNumber) || checkNumberEntry.Length > 4 || checkNumberEntry.Length < 3));
+
 
             }
 
