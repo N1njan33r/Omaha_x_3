@@ -10,6 +10,8 @@ namespace POS
         //
         public string Item { get; set; }
         public int TotalPriceofItem { get; set; }
+        public static double Total { get; set; }
+
 
         public Reciept(string item, int TotalPriceofItem) { }
 
@@ -33,13 +35,13 @@ namespace POS
                 subTotal = recieptAsList[i].TotalPriceofItem + subTotal;
             }
 
-            string total = (subTotal * 1.06).ToString("###.##");
+            //string total = (subTotal * 1.06).ToString("###.##");
+            Total = (subTotal * 1.06);
 
             Console.WriteLine($"Tax: 6%");
             Console.WriteLine($"Subtotal: {subTotal}");
-            Console.WriteLine($"Total: {total}");
+            Console.WriteLine($"Total: {Total.ToString("###.##")}");
             
-
         }
     }
 }
