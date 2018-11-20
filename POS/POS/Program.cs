@@ -10,6 +10,13 @@ namespace POS
     {
         static void Main(string[] args)
         {
+
+            Menu.MenuPrompt();
+
+            Products.CreateList();
+
+            Console.ReadKey();
+
         }
     }
 }
