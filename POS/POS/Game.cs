@@ -8,16 +8,18 @@ namespace POS
 {
     class Game
     {
+        public string Name { get; set; }
+        public string Category { get; set; }
+        public string Description { get; set; }
+        public double Price { get; set; }
 
-        public string Title { get; set; }
-        public string Price { get; set; }
-
-        public Game(string title, string price)
+        public Game(string name, string category, string description, double price)
         {
-            Title = title;
+            Name = name;
+            Category = category;
+            Description = description;
             Price = price;
         }
-
-
+        //public Game() { }
     }
 }
