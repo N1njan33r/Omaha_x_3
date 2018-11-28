@@ -132,6 +132,11 @@ namespace POS
                         Console.WriteLine("==========================================================================");
                         Console.WriteLine("Description: " + _selectedGame.Description);
                     }
+                    else
+                    {
+                        Console.WriteLine("Invalid selection. Please try again..." + Environment.NewLine);
+                        GameSelection();
+                    }
                 }
             }
             if (!sortByName)
@@ -158,22 +163,37 @@ namespace POS
                         Console.WriteLine("==========================================================================");
                         Console.WriteLine("Description: " + _selectedGame.Description);
                     }
+                    else
+                    {
+                        Console.WriteLine("Invalid selection. Please try again..." + Environment.NewLine);
+                        GameSelection();
+                    }
                 }
             }
 
+            Console.WriteLine();
             EnterQty();
         }
 
         public static double lineTotal;
         static void EnterQty()
         {
-            Console.Write(Environment.NewLine + Environment.NewLine + "Enter quantity: ");
-            string userInput = Console.ReadLine();
-            if (int.TryParse(userInput, out int result))
+            do
             {
-                lineTotal = result * _selectedGame.Price;
-            }
-            Console.WriteLine("Qty: " + result + " | $" + lineTotal);
+                Console.Write(Environment.NewLine + "Enter quantity: ");
+                string userInput = Console.ReadLine();
+                if (int.TryParse(userInput, out int result))
+                {
+                    lineTotal = result * _selectedGame.Price;
+                    Console.WriteLine("Qty: " + result + " | $" + lineTotal);
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Invalid selection. Please try again..." + Environment.NewLine);
+                    continue;
+                }
+            } while (true);
         }
 
         // Prompt User Select Menu Items by Categories or List All
