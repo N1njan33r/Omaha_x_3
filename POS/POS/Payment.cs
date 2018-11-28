@@ -13,7 +13,7 @@ namespace POS
         private string change;
 
 
-        public enum PaymentMethod
+        enum PaymentMethod
         {
             Cash = 1,
             Credit = 2,
@@ -23,19 +23,20 @@ namespace POS
         private void ChooseCash()
         {
             double cashInserted;
-            Console.WriteLine($"Please enter amount owed: {currentTotal}");
+            Console.WriteLine($"Amount owed: $" + "{0:0.00}", currentTotal);
+            Console.Write($"Amount tendered: $");
             string amountEntered = Console.ReadLine();
-            double.TryParse(amountEntered, out cashInserted);
-            if (!double.TryParse(amountEntered, out cashInserted))
+            bool validInput = double.TryParse(amountEntered, out cashInserted);
+            if (!validInput)
             {
-                while (!double.TryParse(amountEntered, out cashInserted))
+                while (!validInput)
                 {
-                    Console.WriteLine("Invalid Cash Entery. Please enter US Currency");
+                    Console.WriteLine("Invalid Cash Entry. Please enter US Currency");
                     amountEntered = Console.ReadLine();
                     double.TryParse(amountEntered, out cashInserted);
                     if (currentTotal > cashInserted)
                     {
-                        Console.WriteLine($"Please enter amount greated than {currentTotal.ToString("###.##")}");
+                        Console.WriteLine($"Please enter amount greater than {currentTotal.ToString("###.##")}");
                         amountEntered = Console.ReadLine();
                         double additionalCash;
                         if (!double.TryParse(amountEntered, out additionalCash))
@@ -51,43 +52,46 @@ namespace POS
                             }
                             else
                             {
-                                Console.WriteLine("Looks like your having some trouble. Please reach out to the nearest attenedant:");
+                                Console.WriteLine("Looks like your having some trouble. Please reach out to the nearest attendant:");
                                 continue;
                             }
                         }
-
                     }
                 }
             }
             while (double.TryParse(amountEntered, out cashInserted) && cashInserted < currentTotal)
             {
-                Console.WriteLine($"The amount your enter {cashInserted.ToString("###.##")} is less than your current total {currentTotal.ToString("###.##")}");
-                Console.WriteLine($"Please enter the difference {(cashInserted - currentTotal).ToString("###.##")}");
-                amountEntered = Console.ReadLine();
-                double additionalCash;
-                if (!double.TryParse(amountEntered, out additionalCash))
-                {
-                    continue;
-                }
-                else if (double.TryParse(amountEntered, out additionalCash))
-                {
-                    cashInserted = cashInserted + additionalCash;
-                    if (cashInserted > currentTotal)
-                    {
-                        break;
-                    }
-                    else
-                    {
-                        Console.WriteLine("Looks like your having some trouble. Please reach out to the nearest attenedant:");
-                        continue;
-                    }
-                }
+                currentTotal -= cashInserted;
+                Console.WriteLine("Balance remaining: $" + "{0:0.00}", currentTotal);
+                ChoosePayment();
+                //Console.WriteLine($"The amount your enter {cashInserted.ToString("###.##")} is less than your current total {currentTotal.ToString("###.##")}");
+                //Console.WriteLine($"Please enter the difference {(cashInserted - currentTotal).ToString("###.##")}");
+                //amountEntered = Console.ReadLine();
+                //double additionalCash;
+                //if (!double.TryParse(amountEntered, out additionalCash))
+                //{
+                //    continue;
+                //}
+                //else if (double.TryParse(amountEntered, out additionalCash))
+                //{
+                //    cashInserted = cashInserted + additionalCash;
+                //    if (cashInserted > currentTotal)
+                //    {
+                //        break;
+                //    }
+                //    else
+                //    {
+                //        Console.WriteLine("Looks like your having some trouble. Please reach out to the nearest attendant:");
+                //        continue;
+                //    }
+                //}
             }
-
             change = (cashInserted - currentTotal).ToString("###.##");
 
-            Console.WriteLine($"You submitted: {cashInserted} n/" +
-                $"Your change: {change} ");
+            Console.WriteLine($"You submitted: ${cashInserted}" + Environment.NewLine + $"Your change: {change} ");
+
+            if (currentTotal <= 0)
+                FinishEverything();
 
         }
     
@@ -97,7 +101,7 @@ namespace POS
             int creditCardNumber;
             do
             {
-                Console.Write("Please enter the last 4 digits of your Credit Card Number:  ");
+                Console.Write("Please enter last 4 digits of card number: ");
                 creditCardEntry = Console.ReadLine();
                 int.TryParse(creditCardEntry, out creditCardNumber);
 
@@ -107,17 +111,17 @@ namespace POS
             int creditExpMonth;
             string creditExpYearEntry;
             int creditExpYear;
-            Console.WriteLine("Please enter the Month and Year your card expires (MM/YY)");
+            Console.WriteLine("Please enter expiration (MM/YY)");
             do
             {
-                Console.WriteLine("MM: ");
+                Console.Write("MM: ");
                 creditExpMonthEntry = Console.ReadLine();
                 int.TryParse(creditExpMonthEntry, out creditExpMonth);
 
             } while ((!int.TryParse(creditExpMonthEntry, out creditExpMonth)) || creditExpMonthEntry.Length != 2 || creditExpMonth > 12 || creditExpMonth < 1);
             do
             {
-                Console.WriteLine("YY (18-30): ");
+                Console.Write("YY (18-30): ");
                 creditExpYearEntry = Console.ReadLine();
                 int.TryParse(creditExpYearEntry, out creditExpYear);
 
@@ -129,13 +133,16 @@ namespace POS
             int cvv;
             do
             {
-                Console.WriteLine("Enter CVV (3 Digit Number):  ");
+                Console.Write("Enter CVV (3 Digit Number):  ");
                 cvvEntry = Console.ReadLine();
                 int.TryParse(cvvEntry, out cvv);
 
             } while ((!int.TryParse(cvvEntry, out cvv)) || cvvEntry.Length != 3);
 
             Console.WriteLine("Credit Authorized");
+
+            if (currentTotal <= 0)
+                FinishEverything();
         }
 
         private void ChooseCheck()
@@ -151,36 +158,45 @@ namespace POS
 
             } while ((!int.TryParse(checkNumberEntry, out checkNumber) || checkNumberEntry.Length > 4 || checkNumberEntry.Length < 3));
 
+            if (currentTotal <= 0)
+                FinishEverything();
+
         }
 
         public void ChoosePayment()
         {
             
-            do
-            {
-            Console.WriteLine("Select your payment method using 1, 2, or 3: ");
-            Console.WriteLine("1. Cash /n 2. Credit /n 3. Check");
-            paymentSelection = Console.ReadLine();
-            int.TryParse(paymentSelection, out paymentOption);
-            } while (paymentOption > 3 || paymentOption < 1);
+            //do
+            //{
+            Console.WriteLine("Select your payment method: ");
+            Console.WriteLine(" 1 - Cash" + Environment.NewLine + " 2 - Credit" + Environment.NewLine + " 3 - Check");
+            Console.Write("Selection: ");
+            //paymentSelection = Console.ReadLine();
+            ConsoleKeyInfo paymentMethod = Console.ReadKey();
+            Console.WriteLine();
+            //int.TryParse(paymentSelection, out paymentOption);
 
-            if (paymentOption == (int)PaymentMethod.Cash)
+            //} while (paymentOption > 3 || paymentOption < 1);
+
+            if (!(paymentMethod.KeyChar.Equals('1') | paymentMethod.KeyChar.Equals('2') | paymentMethod.KeyChar.Equals('3')))
+                ChoosePayment();
+            else if (paymentMethod.KeyChar.Equals('1'))
             {
                 ChooseCash();
             }
-            else if (paymentOption == (int)PaymentMethod.Credit)
+            else if (paymentMethod.KeyChar.Equals('2'))
             {
                 ChooseCredit();
             }
-            else if (paymentOption == (int)PaymentMethod.Check)
+            else if (paymentMethod.KeyChar.Equals('3'))
             {
                 ChooseCheck();
-
             }
-
-
-
         }
 
+        void FinishEverything()
+        {
+            Console.WriteLine("Thank you for using Omaha POS System.");
+        }
     }
 }

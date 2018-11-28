@@ -9,11 +9,15 @@ namespace POS
         //Creating a list to store Menu values
         //
         public string Item { get; set; }
-        public int TotalPriceofItem { get; set; }
+        public double TotalPriceofItem { get; set; }
         public static double Total { get; set; }
 
 
-        public Receipt(string item, int TotalPriceofItem) { }
+        public Receipt(string item, double lineTotal)
+        {
+            Item = item;
+            TotalPriceofItem = lineTotal;
+        }
 
         public static List<Receipt> receiptAsList = new List<Receipt>();
 
@@ -27,7 +31,7 @@ namespace POS
             double subTotal = 0;
             for (int i = 0; i < receiptAsList.Count; i++)
             {
-                Console.WriteLine($"{receiptAsList[i].Item}    {receiptAsList[i].TotalPriceofItem}");
+                Console.WriteLine($"{receiptAsList[i].Item}" + "\t\t\t $" + $"{receiptAsList[i].TotalPriceofItem}");
             }
 
             for (int i = 0; i < receiptAsList.Count; i++)
@@ -36,12 +40,15 @@ namespace POS
             }
 
             //string total = (subTotal * 1.06).ToString("###.##");
-            Total = (subTotal * 1.06);
+            double tax = (subTotal / 100) * 6;
+            Total = subTotal + tax;
 
-            Console.WriteLine($"Tax: 6%");
-            Console.WriteLine($"Subtotal: {subTotal}");
-            Console.WriteLine($"Total: {Total.ToString("###.##")}");
-            
+            Console.WriteLine($"\t\t\t6% MI Tax: \t $" + "{0:0.00}", tax);
+            Console.WriteLine($"\t\t\tSubtotal: \t $" + "{0:0.00}", subTotal);
+            Console.WriteLine($"\t\t\tTotal: \t\t $" + "{0:0.00}", Total);
+
+            Payment payment = new Payment();
+            payment.ChoosePayment();
         }
     }
 }
