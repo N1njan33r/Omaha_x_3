@@ -13,7 +13,7 @@ namespace POS
 
             Menu.MenuPrompt();
 
-            Products.CreateList();
+            //Products.CreateList();
 
             Console.ReadKey();
 
