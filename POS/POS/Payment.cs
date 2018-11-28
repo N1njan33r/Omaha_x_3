@@ -4,11 +4,11 @@ namespace POS
 {
     class Payment
     {
-        //Pull reciept
+        //Pull receipt
         //prompt payment type
         //If statement for payment calc type
         public string paymentSelection { get; set; }
-        private double currentTotal = Reciept.Total;
+        private double currentTotal = Receipt.Total;
         private int paymentOption;
         private string change;
 
