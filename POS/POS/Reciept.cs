@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace POS
 {
-    class Reciept
+    class Receipt
     {
         //Creating a list to store Menu values
         //
@@ -13,26 +13,26 @@ namespace POS
         public static double Total { get; set; }
 
 
-        public Reciept(string item, int TotalPriceofItem) { }
+        public Receipt(string item, int TotalPriceofItem) { }
 
-        public static List<Reciept> recieptAsList = new List<Reciept>();
+        public static List<Receipt> receiptAsList = new List<Receipt>();
 
-        public static void AddITemToReciept(Reciept lineItem)
+        public static void AddItemToReceipt(Receipt lineItem)
         {
-            recieptAsList.Add(lineItem);
+            receiptAsList.Add(lineItem);
         }
 
-        public static void CreateReciept()
+        public static void CreateReceipt()
         {
             double subTotal = 0;
-            for (int i = 0; i < recieptAsList.Count; i++)
+            for (int i = 0; i < receiptAsList.Count; i++)
             {
-                Console.WriteLine($"{recieptAsList[i].Item}    {recieptAsList[i].TotalPriceofItem}");
+                Console.WriteLine($"{receiptAsList[i].Item}    {receiptAsList[i].TotalPriceofItem}");
             }
 
-            for (int i = 0; i < recieptAsList.Count; i++)
+            for (int i = 0; i < receiptAsList.Count; i++)
             {
-                subTotal = recieptAsList[i].TotalPriceofItem + subTotal;
+                subTotal = receiptAsList[i].TotalPriceofItem + subTotal;
             }
 
             //string total = (subTotal * 1.06).ToString("###.##");
