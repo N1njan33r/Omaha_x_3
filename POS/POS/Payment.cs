@@ -112,21 +112,44 @@ namespace POS
             string creditExpYearEntry;
             int creditExpYear;
             Console.WriteLine("Please enter expiration (MM/YY)");
+            bool validCredit;
+            
             do
             {
                 Console.Write("MM: ");
                 creditExpMonthEntry = Console.ReadLine();
                 int.TryParse(creditExpMonthEntry, out creditExpMonth);
 
-            } while ((!int.TryParse(creditExpMonthEntry, out creditExpMonth)) || creditExpMonthEntry.Length != 2 || creditExpMonth > 12 || creditExpMonth < 1);
-            do
-            {
                 Console.Write("YY (18-30): ");
                 creditExpYearEntry = Console.ReadLine();
                 int.TryParse(creditExpYearEntry, out creditExpYear);
 
-            } while ((!int.TryParse(creditExpYearEntry, out creditExpYear)) || creditExpYearEntry.Length != 2
-            || creditExpYear > 30 || creditExpYear < 18);
+
+                if (int.TryParse(creditExpMonthEntry, out creditExpMonth) || (int.TryParse(creditExpYearEntry, out creditExpYear) || creditExpMonthEntry.Length == 2 || (creditExpMonth <= 12 && creditExpMonth >= 1)
+                    || (int.TryParse(creditExpYearEntry, out creditExpYear)) || creditExpYearEntry.Length == 2
+                    || (creditExpYear < 31 && creditExpYear >= 18)))
+                {
+                    validCredit = true;
+                    string monthYear = $"{creditExpMonthEntry}/{creditExpYearEntry}";
+                    DateTime.TryParse(monthYear, out DateTime creditExpirationMMYY);
+                    if (creditExpirationMMYY.Year == DateTime.Now.Year && creditExpirationMMYY.Month < DateTime.Now.Month)
+                    {
+                        Console.WriteLine("Expired Card");
+                        validCredit = false;
+                    }
+                }
+                else
+                { validCredit = false; }
+
+            } while (!validCredit);
+            //do
+            //{
+            //    Console.Write("YY (18-30): ");
+            //    creditExpYearEntry = Console.ReadLine();
+            //    int.TryParse(creditExpYearEntry, out creditExpYear);
+
+            //} while ((!int.TryParse(creditExpYearEntry, out creditExpYear)) || creditExpYearEntry.Length != 2
+            //|| creditExpYear > 30 || creditExpYear < 18);
 
 
             string cvvEntry;
