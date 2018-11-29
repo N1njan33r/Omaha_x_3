@@ -10,13 +10,13 @@ namespace POS
     {
         static void Main(string[] args)
         {
+            Products.ListProducts();
 
+            Console.WriteLine("Omaha POS System v3.0");
             Menu.MenuPrompt();
 
-            //Products.CreateList();
-
+            Console.WriteLine("Goodbye!");
             Console.ReadKey();
-
         }
     }
 }
