@@ -97,16 +97,17 @@ namespace POS
             }
             change = (totalCashInserted - _originalTotal).ToString("###.##");
 
-            Console.WriteLine($"You submitted: ${totalCashInserted}" + Environment.NewLine + $"Your change: {change} ");
-
-            if (totalCashInserted >= _originalTotal)
+            Console.WriteLine($"You submitted: ${totalCashInserted}" + Environment.NewLine + $"Your change: {change} ")
+            
+              if (totalCashInserted >= _originalTotal)
             {
                 FinishEverything();
             }
                 
 
         }
-    
+        
+
         private void ChooseCredit()
         {
             string creditCardEntry;
