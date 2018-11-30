@@ -26,6 +26,11 @@ namespace POS
             receiptAsList.Add(lineItem);
         }
 
+        static void PrintLine()
+        {
+            Console.WriteLine(new string('-', receiptAsList.Capacity));
+        }
+
         public static void CreateReceipt()
         {
             double subTotal = 0;
@@ -33,6 +38,7 @@ namespace POS
             {
                 Console.WriteLine($"{receiptAsList[i].Item}" + "\t\t\t $" + $"{receiptAsList[i].TotalPriceofItem}");
             }
+            
 
             for (int i = 0; i < receiptAsList.Count; i++)
             {
