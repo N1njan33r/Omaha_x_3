@@ -9,8 +9,10 @@ namespace POS
         //If statement for payment calc type
         public string paymentSelection { get; set; }
         private double currentTotal = Receipt.Total;
-        private int paymentOption;
+        private int _paymentOption;
+        private double totalCashInserted;
         private string change;
+        private double _originalTotal = Receipt.Total;
 
 
         enum PaymentMethod
@@ -59,9 +61,11 @@ namespace POS
                     }
                 }
             }
+            totalCashInserted += cashInserted;
             while (double.TryParse(amountEntered, out cashInserted) && cashInserted < currentTotal)
             {
                 currentTotal -= cashInserted;
+                
                 Console.WriteLine("Balance remaining: $" + "{0:0.00}", currentTotal);
                 ChoosePayment();
                 //Console.WriteLine($"The amount your enter {cashInserted.ToString("###.##")} is less than your current total {currentTotal.ToString("###.##")}");
@@ -86,11 +90,11 @@ namespace POS
                 //    }
                 //}
             }
-            change = (cashInserted - currentTotal).ToString("###.##");
+            change = (totalCashInserted - _originalTotal).ToString("###.##");
 
-            Console.WriteLine($"You submitted: ${cashInserted}" + Environment.NewLine + $"Your change: {change} ");
+            Console.WriteLine($"You submitted: ${totalCashInserted}" + Environment.NewLine + $"Your change: {change} ");
 
-            if (currentTotal <= 0)
+            if (totalCashInserted > _originalTotal)
                 FinishEverything();
 
         }
