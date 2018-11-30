@@ -15,6 +15,7 @@ namespace POS
         private double _originalTotal = Receipt.Total;
 
 
+
         enum PaymentMethod
         {
             Cash = 1,
@@ -62,12 +63,16 @@ namespace POS
                 }
             }
             totalCashInserted += cashInserted;
-            while (double.TryParse(amountEntered, out cashInserted) && cashInserted < currentTotal)
+            if (double.TryParse(amountEntered, out cashInserted) && totalCashInserted < _originalTotal)
             {
                 currentTotal -= cashInserted;
                 
                 Console.WriteLine("Balance remaining: $" + "{0:0.00}", currentTotal);
-                ChoosePayment();
+                if (totalCashInserted <= _originalTotal)
+                {
+                    ChoosePayment();
+                }
+                
                 //Console.WriteLine($"The amount your enter {cashInserted.ToString("###.##")} is less than your current total {currentTotal.ToString("###.##")}");
                 //Console.WriteLine($"Please enter the difference {(cashInserted - currentTotal).ToString("###.##")}");
                 //amountEntered = Console.ReadLine();
@@ -94,8 +99,11 @@ namespace POS
 
             Console.WriteLine($"You submitted: ${totalCashInserted}" + Environment.NewLine + $"Your change: {change} ");
 
-            if (totalCashInserted > _originalTotal)
+            if (totalCashInserted >= _originalTotal)
+            {
                 FinishEverything();
+            }
+                
 
         }
     
@@ -192,7 +200,7 @@ namespace POS
 
         public void ChoosePayment()
         {
-            
+
             //do
             //{
             Console.WriteLine("Select your payment method: ");
@@ -206,7 +214,9 @@ namespace POS
             //} while (paymentOption > 3 || paymentOption < 1);
 
             if (!(paymentMethod.KeyChar.Equals('1') | paymentMethod.KeyChar.Equals('2') | paymentMethod.KeyChar.Equals('3')))
+            { 
                 ChoosePayment();
+            }
             else if (paymentMethod.KeyChar.Equals('1'))
             {
                 ChooseCash();
@@ -224,6 +234,7 @@ namespace POS
         void FinishEverything()
         {
             Console.WriteLine("Thank you for using Omaha POS System.");
+
         }
     }
 }
