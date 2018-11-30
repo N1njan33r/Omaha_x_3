@@ -9,8 +9,11 @@ namespace POS
         //If statement for payment calc type
         public string paymentSelection { get; set; }
         private double currentTotal = Receipt.Total;
-        private int paymentOption;
+        private int _paymentOption;
+        private double totalCashInserted;
         private string change;
+        private double _originalTotal = Receipt.Total;
+
 
 
         enum PaymentMethod
@@ -59,11 +62,17 @@ namespace POS
                     }
                 }
             }
-            while (double.TryParse(amountEntered, out cashInserted) && cashInserted < currentTotal)
+            totalCashInserted += cashInserted;
+            if (double.TryParse(amountEntered, out cashInserted) && totalCashInserted < _originalTotal)
             {
                 currentTotal -= cashInserted;
+                
                 Console.WriteLine("Balance remaining: $" + "{0:0.00}", currentTotal);
-                ChoosePayment();
+                if (totalCashInserted <= _originalTotal)
+                {
+                    ChoosePayment();
+                }
+                
                 //Console.WriteLine($"The amount your enter {cashInserted.ToString("###.##")} is less than your current total {currentTotal.ToString("###.##")}");
                 //Console.WriteLine($"Please enter the difference {(cashInserted - currentTotal).ToString("###.##")}");
                 //amountEntered = Console.ReadLine();
@@ -86,12 +95,15 @@ namespace POS
                 //    }
                 //}
             }
-            change = (cashInserted - currentTotal).ToString("###.##");
+            change = (totalCashInserted - _originalTotal).ToString("###.##");
 
-            Console.WriteLine($"You submitted: ${cashInserted}" + Environment.NewLine + $"Your change: {change} ");
-
-            if (currentTotal <= 0) 
+            Console.WriteLine($"You submitted: ${totalCashInserted}" + Environment.NewLine + $"Your change: {change} ")
+            
+              if (totalCashInserted >= _originalTotal)
+            {
                 FinishEverything();
+            }
+                
 
         }
         
@@ -113,21 +125,44 @@ namespace POS
             string creditExpYearEntry;
             int creditExpYear;
             Console.WriteLine("Please enter expiration (MM/YY)");
+            bool validCredit;
+            
             do
             {
                 Console.Write("MM: ");
                 creditExpMonthEntry = Console.ReadLine();
                 int.TryParse(creditExpMonthEntry, out creditExpMonth);
 
-            } while ((!int.TryParse(creditExpMonthEntry, out creditExpMonth)) || creditExpMonthEntry.Length != 2 || creditExpMonth > 12 || creditExpMonth < 1);
-            do
-            {
                 Console.Write("YY (18-30): ");
                 creditExpYearEntry = Console.ReadLine();
                 int.TryParse(creditExpYearEntry, out creditExpYear);
 
-            } while ((!int.TryParse(creditExpYearEntry, out creditExpYear)) || creditExpYearEntry.Length != 2
-            || creditExpYear > 30 || creditExpYear < 18);
+
+                if (int.TryParse(creditExpMonthEntry, out creditExpMonth) || (int.TryParse(creditExpYearEntry, out creditExpYear) || creditExpMonthEntry.Length == 2 || (creditExpMonth <= 12 && creditExpMonth >= 1)
+                    || (int.TryParse(creditExpYearEntry, out creditExpYear)) || creditExpYearEntry.Length == 2
+                    || (creditExpYear < 31 && creditExpYear >= 18)))
+                {
+                    validCredit = true;
+                    string monthYear = $"{creditExpMonthEntry}/{creditExpYearEntry}";
+                    DateTime.TryParse(monthYear, out DateTime creditExpirationMMYY);
+                    if (creditExpirationMMYY.Year == DateTime.Now.Year && creditExpirationMMYY.Month < DateTime.Now.Month)
+                    {
+                        Console.WriteLine("Expired Card");
+                        validCredit = false;
+                    }
+                }
+                else
+                { validCredit = false; }
+
+            } while (!validCredit);
+            //do
+            //{
+            //    Console.Write("YY (18-30): ");
+            //    creditExpYearEntry = Console.ReadLine();
+            //    int.TryParse(creditExpYearEntry, out creditExpYear);
+
+            //} while ((!int.TryParse(creditExpYearEntry, out creditExpYear)) || creditExpYearEntry.Length != 2
+            //|| creditExpYear > 30 || creditExpYear < 18);
 
 
             string cvvEntry;
@@ -166,7 +201,7 @@ namespace POS
 
         public void ChoosePayment()
         {
-            
+
             //do
             //{
             Console.WriteLine("Select your payment method: ");
@@ -180,7 +215,9 @@ namespace POS
             //} while (paymentOption > 3 || paymentOption < 1);
 
             if (!(paymentMethod.KeyChar.Equals('1') | paymentMethod.KeyChar.Equals('2') | paymentMethod.KeyChar.Equals('3')))
+            { 
                 ChoosePayment();
+            }
             else if (paymentMethod.KeyChar.Equals('1'))
             {
                 ChooseCash();
@@ -198,6 +235,7 @@ namespace POS
         void FinishEverything()
         {
             Console.WriteLine("Thank you for using Omaha POS System.");
+
         }
     }
 }
