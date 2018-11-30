@@ -90,11 +90,12 @@ namespace POS
 
             Console.WriteLine($"You submitted: ${cashInserted}" + Environment.NewLine + $"Your change: {change} ");
 
-            if (currentTotal <= 0)
+            if (currentTotal <= 0) 
                 FinishEverything();
 
         }
-    
+        
+
         private void ChooseCredit()
         {
             string creditCardEntry;
