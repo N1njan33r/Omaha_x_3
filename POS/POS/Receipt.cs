@@ -36,7 +36,8 @@ namespace POS
             double subTotal = 0;
             for (int i = 0; i < receiptAsList.Count; i++)
             {
-                Console.WriteLine($"{receiptAsList[i].Item}" + "\t\t\t $" + $"{receiptAsList[i].TotalPriceofItem}");
+                // Console.WriteLine($"{receiptAsList[i].Item}                {receiptAsList[i].TotalPriceofItem,10}");
+                Console.WriteLine(string.Format("{0, -39} | {1, -39}", receiptAsList[i].Item, receiptAsList[i].TotalPriceofItem));
             }
             
 
@@ -55,6 +56,7 @@ namespace POS
 
             Payment payment = new Payment();
             payment.ChoosePayment();
+
         }
     }
 }

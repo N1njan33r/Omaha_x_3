@@ -13,7 +13,7 @@ namespace POS
         private double totalCashInserted;
         private string change;
         private double _originalTotal = Receipt.Total;
-
+        private bool isSecondOrMorePayment;
 
 
         enum PaymentMethod
@@ -95,16 +95,18 @@ namespace POS
                 //    }
                 //}
             }
-            change = (totalCashInserted - _originalTotal).ToString("###.##");
-
-            Console.WriteLine($"You submitted: ${totalCashInserted}" + Environment.NewLine + $"Your change: {change} ")
-            
-              if (totalCashInserted >= _originalTotal)
+            if (!isSecondOrMorePayment)
             {
-                FinishEverything();
-            }
-                
+                change = (totalCashInserted - _originalTotal).ToString("###.##");
 
+                Console.WriteLine($"You submitted: ${totalCashInserted}" + Environment.NewLine + $"Your change: {change} ");
+
+                if (totalCashInserted >= _originalTotal)
+                {
+                    FinishEverything();
+                    isSecondOrMorePayment = true;
+                }
+            }
         }
         
 
@@ -196,7 +198,6 @@ namespace POS
 
             if (currentTotal <= 0)
                 FinishEverything();
-
         }
 
         public void ChoosePayment()
