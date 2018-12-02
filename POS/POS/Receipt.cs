@@ -37,7 +37,7 @@ namespace POS
             for (int i = 0; i < receiptAsList.Count; i++)
             {
                 // Console.WriteLine($"{receiptAsList[i].Item}                {receiptAsList[i].TotalPriceofItem,10}");
-                Console.WriteLine(string.Format("{0, -10} | {1, -10}", receiptAsList[i].Item, receiptAsList[i].TotalPriceofItem));
+                Console.WriteLine(string.Format("{0, -39} | {1, -39}", receiptAsList[i].Item, receiptAsList[i].TotalPriceofItem));
             }
             
 
