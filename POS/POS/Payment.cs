@@ -128,26 +128,26 @@ namespace POS
             int creditExpYear;
             Console.WriteLine("Please enter expiration (MM/YY)");
             bool validCredit;
-            
+    
             do
             {
                 Console.Write("MM: ");
                 creditExpMonthEntry = Console.ReadLine();
-                int.TryParse(creditExpMonthEntry, out creditExpMonth);
+                bool creditMonthVerify = int.TryParse(creditExpMonthEntry, out creditExpMonth);
 
                 Console.Write("YY (18-30): ");
                 creditExpYearEntry = Console.ReadLine();
-                int.TryParse(creditExpYearEntry, out creditExpYear);
+                bool creditYearVerify  = int.TryParse(creditExpYearEntry, out creditExpYear);
 
-
-                if (int.TryParse(creditExpMonthEntry, out creditExpMonth) || (int.TryParse(creditExpYearEntry, out creditExpYear) || creditExpMonthEntry.Length == 2 || (creditExpMonth <= 12 && creditExpMonth >= 1)
-                    || (int.TryParse(creditExpYearEntry, out creditExpYear)) || creditExpYearEntry.Length == 2
-                    || (creditExpYear < 31 && creditExpYear >= 18)))
+                if (creditMonthVerify && creditYearVerify && creditExpMonthEntry.Length == 2 && (creditExpMonth <= 12 && creditExpMonth >= 1)
+                    && (int.TryParse(creditExpYearEntry, out creditExpYear)) && creditExpYearEntry.Length == 2
+                    && (creditExpYear < 31 && creditExpYear >= 18))
                 {
                     validCredit = true;
-                    string monthYear = $"{creditExpMonthEntry}/{creditExpYearEntry}";
+                    string monthYear = $"{creditExpMonthEntry}/1/{creditExpYearEntry}";
                     DateTime.TryParse(monthYear, out DateTime creditExpirationMMYY);
-                    if (creditExpirationMMYY.Year == DateTime.Now.Year && creditExpirationMMYY.Month < DateTime.Now.Month)
+
+                    if (creditExpirationMMYY.Year == DateTime.Now.Year  && creditExpirationMMYY.Month < DateTime.Now.Month)
                     {
                         Console.WriteLine("Expired Card");
                         validCredit = false;
