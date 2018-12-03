@@ -14,6 +14,7 @@ namespace POS
         private string change;
         private double _originalTotal = Receipt.Total;
         private bool isSecondOrMorePayment;
+        private bool _creditOrCheckUsed = false;
 
 
         enum PaymentMethod
@@ -98,7 +99,7 @@ namespace POS
             if (!isSecondOrMorePayment)
             {
                 change = (totalCashInserted - _originalTotal).ToString("###.##");
-
+                if (_creditOrCheckUsed) { change = " "; }
                 Console.WriteLine($"You submitted: ${totalCashInserted}" + Environment.NewLine + $"Your change: {change} ");
 
                 if (totalCashInserted >= _originalTotal)
@@ -177,9 +178,12 @@ namespace POS
 
             } while ((!int.TryParse(cvvEntry, out cvv)) || cvvEntry.Length != 3);
 
+
+            _creditOrCheckUsed = true;
             Console.WriteLine("Credit Authorized");
 
             if (currentTotal <= 0)
+                change = "";
                 FinishEverything();
         }
 
@@ -196,6 +200,7 @@ namespace POS
 
             } while ((!int.TryParse(checkNumberEntry, out checkNumber) || checkNumberEntry.Length > 4 || checkNumberEntry.Length < 3));
 
+            _creditOrCheckUsed = true;
             if (currentTotal <= 0)
                 FinishEverything();
         }
