@@ -11,7 +11,7 @@ namespace POS
         public string Item { get; set; }
         public double TotalPriceofItem { get; set; }
         public static double Total { get; set; }
-
+        
 
         public Receipt(string item, double lineTotal)
         {

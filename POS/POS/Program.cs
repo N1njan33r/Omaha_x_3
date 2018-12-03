@@ -14,10 +14,12 @@ namespace POS
             while (true)
             {
                 Console.WriteLine("Omaha POS System v3.0");
+                Receipt.receiptAsList.Clear();
                 Menu.MenuPrompt();
 
                 Console.WriteLine("Goodbye!");
                 Console.ReadKey();
+                Console.Clear();
             }
         }
     }
