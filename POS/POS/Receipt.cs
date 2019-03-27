@@ -43,8 +43,8 @@ namespace POS
             double tax = (subTotal / 100) * 6;
             Total = subTotal + tax;
 
-            Console.WriteLine($"\t\t\t6% MI Tax: \t $" + "{0:0.00}", tax);
             Console.WriteLine($"\t\t\tSubtotal: \t $" + "{0:0.00}", subTotal);
+            Console.WriteLine($"\t\t\t6% MI Tax: \t $" + "{0:0.00}", tax);
             Console.WriteLine($"\t\t\tTotal: \t\t $" + "{0:0.00}", Total);
 
             Payment payment = new Payment();

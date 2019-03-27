@@ -27,6 +27,8 @@ namespace POS
             }
             else if (userInput.KeyChar.Equals('1'))
             {
+                Console.Clear();
+                Console.WriteLine("Select a game: ");
                 foreach (var game in Products.Games)
                 {
                     Console.WriteLine(i.ToString() + " - " + game.Name);
@@ -38,6 +40,8 @@ namespace POS
             else if (userInput.KeyChar.Equals('2'))
             {
                 string _category = "";
+                Console.Clear();
+                Console.WriteLine("Select a category: ");
                 foreach (var game in Products.Games)
                 {
                     if (game.Category.Equals(_category))
@@ -46,6 +50,7 @@ namespace POS
                     _category = game.Category;
                     i++;
                 }
+
                 CategorySelection();
             }
         }
@@ -64,6 +69,8 @@ namespace POS
             }
             else if (userInput.KeyChar.Equals('1'))
             {
+                Console.Clear();
+                Console.WriteLine("Select a game: ");
                 foreach (var action in Products.Games)
                 {
                     if (action.Category.Equals("Action"))
@@ -76,6 +83,8 @@ namespace POS
             }
             else if (userInput.KeyChar.Equals('2'))
             {
+                Console.Clear();
+                Console.WriteLine("Select a game: ");
                 foreach (var sports in Products.Games)
                 {
                     if (sports.Category.Equals("Sports"))
@@ -88,6 +97,8 @@ namespace POS
             }
             else if (userInput.KeyChar.Equals('3'))
             {
+                Console.Clear();
+                Console.WriteLine("Select a game: ");
                 foreach (var adventure in Products.Games)
                 {
                     if (adventure.Category.Equals("Adventure"))
@@ -100,6 +111,8 @@ namespace POS
             }
             else if (userInput.KeyChar.Equals('4'))
             {
+                Console.Clear();
+                Console.WriteLine("Select a game: ");
                 foreach (var fighting in Products.Games)
                 {
                     if (fighting.Category.Equals("Fighting"))
@@ -117,20 +130,21 @@ namespace POS
         public static Game _selectedGame;
         static void GameSelection()
         {
-            // Console.WriteLine("Select a game or press \"c\" to see more.");
             Console.Write("Selection: ");
             ConsoleKeyInfo userInput = Console.ReadKey();
             Console.WriteLine();
             if (sortByName)
             {
-                if (userInput.KeyChar.Equals('c'))
+                if (userInput.KeyChar.Equals('.'))
                 {
                     Console.WriteLine("===UNDER CONSTRUCTION===");
+                    GameSelection();
                 }
                 else if (int.TryParse(userInput.KeyChar.ToString(), out int number))
                 {
                     if (number > 0 && number <= 9)
                     {
+                        Console.Clear();
                         Game[] game = Products.Games.ToArray();
                         _selectedGame = game[number - 1];
                         Console.WriteLine(Environment.NewLine + _selectedGame.Name + "\t" + "$" + _selectedGame.Price.ToString() + @"/ea.");
@@ -150,6 +164,7 @@ namespace POS
                 {
                     if (number > 0 && number <= 3)
                     {
+                        Console.Clear();
                         if (_selectedCategory == "Sports")
                         {
                             number += 3;
@@ -176,7 +191,6 @@ namespace POS
                 }
             }
 
-            Console.WriteLine();
             EnterQty();
         }
 
@@ -209,7 +223,7 @@ namespace POS
         {
             Console.Write("Add another item? (y/n): ");
             ConsoleKeyInfo userInput = Console.ReadKey();
-            Console.WriteLine();
+            Console.Clear();
             if (!(userInput.KeyChar.Equals('y') | userInput.KeyChar.Equals('n')))
             {
                 Console.WriteLine("Invalid input.");

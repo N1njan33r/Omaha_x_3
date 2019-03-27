@@ -58,7 +58,7 @@ namespace POS
                         }
                     }
                 }
-            }
+            } //change to if and use validInput
             while (double.TryParse(amountEntered, out cashInserted) && cashInserted < currentTotal)
             {
                 currentTotal -= cashInserted;
