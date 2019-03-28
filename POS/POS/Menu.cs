@@ -6,6 +6,7 @@ namespace POS
 {
     class Menu
     {
+	
         static bool sortByName;
         public static void MenuPrompt()
         {
@@ -54,7 +55,7 @@ namespace POS
                 CategorySelection();
             }
         }
-        
+
         static string _selectedCategory;
         static void CategorySelection()
         {
@@ -242,9 +243,11 @@ namespace POS
         public void promptReceipt()
         {
             string addItem = "Some Menu Item"; // Use this as your string a new menu item
-            int lineItemTotal = 1 ; // Put the total of a menu item here
-            var newReceiptItem = new Receipt(addItem,lineItemTotal);
+            int lineItemTotal = 1; // Put the total of a menu item here
+            var newReceiptItem = new Receipt(addItem, lineItemTotal);
             Receipt.AddItemToReceipt(newReceiptItem);  // This will add a ReceiptItem to the Receipt list
-        }        
+        }
+    
     }
+
 }

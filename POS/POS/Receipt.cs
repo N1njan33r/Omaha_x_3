@@ -11,7 +11,7 @@ namespace POS
         public string Item { get; set; }
         public double TotalPriceofItem { get; set; }
         public static double Total { get; set; }
-
+        
 
         public Receipt(string item, double lineTotal)
         {
@@ -26,13 +26,20 @@ namespace POS
             receiptAsList.Add(lineItem);
         }
 
+        static void PrintLine()
+        {
+            Console.WriteLine(new string('-', receiptAsList.Capacity));
+        }
+
         public static void CreateReceipt()
         {
             double subTotal = 0;
             for (int i = 0; i < receiptAsList.Count; i++)
             {
-                Console.WriteLine($"{receiptAsList[i].Item}" + "\t\t\t $" + $"{receiptAsList[i].TotalPriceofItem}");
+                // Console.WriteLine($"{receiptAsList[i].Item}                {receiptAsList[i].TotalPriceofItem,10}");
+                Console.WriteLine(string.Format("{0, -39} | {1, -39}", receiptAsList[i].Item, receiptAsList[i].TotalPriceofItem));
             }
+            
 
             for (int i = 0; i < receiptAsList.Count; i++)
             {
@@ -49,6 +56,7 @@ namespace POS
 
             Payment payment = new Payment();
             payment.ChoosePayment();
+
         }
     }
 }
